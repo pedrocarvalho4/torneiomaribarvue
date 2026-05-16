@@ -1,0 +1,15 @@
+export const matches = {
+  title: "Próximos partidos",
+  description: "Consulta los próximos partidos del torneo.",
+  loading: "Cargando partidos...",
+  error: "Error al cargar los partidos.",
+  empty: "Aún no hay partidos disponibles.",
+  court: "Campo",
+  date: "Fecha",
+  time: "Hora",
+  category: "Categoría",
+  teamA: "Equipo A",
+  teamB: "Equipo B",
+  result: "Resultado",
+  status: "Estado",
+}
