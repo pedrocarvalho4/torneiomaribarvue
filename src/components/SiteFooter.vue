@@ -44,7 +44,24 @@
 
       <div class="footer-block contact-block">
         <h3>{{ t('footer.contactTitle') }}</h3>
-        <p>torneiomaribarvolley@gmail.com</p>
+
+        <p>
+          <a href="mailto:torneiomaribarvolley@gmail.com">
+            torneiomaribarvolley@gmail.com
+          </a>
+        </p>
+
+        <p>
+          <a
+            class="contact-whatsapp-link"
+            href="https://wa.me/351912666379?text=Ol%C3%A1%2C%20gostaria%20de%20pedir%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20Torneio%20Maribar."
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Contactar por WhatsApp"
+          >
+            {{ t('footer.whatsappContact') }}
+          </a>
+        </p>
       </div>
     </div>
 
@@ -198,4 +215,25 @@ const { t } = useI18n()
     grid-template-columns: 1.2fr 1fr 1fr;
   }
 }
+  .contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .contact-block a {
+    font-weight: 600;
+  }
+
+  .contact-whatsapp-link {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .contact-whatsapp-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
 </style>
