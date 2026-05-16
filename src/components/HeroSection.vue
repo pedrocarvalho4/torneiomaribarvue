@@ -5,7 +5,7 @@ import { useI18n } from '../i18n'
 const { t } = useI18n()
 
 const registrationUrl = 'https://forms.gle/QiTkWNkt2Tmcb3JD9'
-const registrationOpenDate = new Date('2026-05-01T00:00:00+01:00')
+const registrationOpenDate = new Date('2026-06-01T00:00:00+01:00')
 
 const now = ref(new Date())
 let timer = null
