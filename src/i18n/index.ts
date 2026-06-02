@@ -16,6 +16,7 @@ import { registrationsBoard } from './registrationsBoard'
 import { rules } from './rules'
 import { scheduleResults } from './scheduleResults'
 import { sponsors } from './sponsors'
+import { registrationsFromSheet } from './registrationsFromSheet'
 
 export type Language = 'pt' | 'en' | 'es'
 
@@ -37,6 +38,7 @@ export const translations = {
   rules,
   scheduleResults,
   sponsors,
+  registrationsFromSheet,
 }
 
 const currentLanguage = ref<Language>('pt')
