@@ -6,15 +6,18 @@
       <h2>{{ t('scheduleResults.emptyTitle') }}</h2>
       <p>
         {{ t('scheduleResults.emptyText') }}
+        {{ t('scheduleResults.registrationsInfo') }}
       </p>
     </section>
+
+    <RegistrationsFromSheet v-if="registrationsOpen" />
 
     <SponsorsCarousel />
 
     <div class="accordion">
       <button class="accordion-header" type="button" @click="isOpen = !isOpen">
         <span>
-          {{ isOpen ? t('scheduleResults.testOpen') :"+" }}
+          {{ isOpen ? t('scheduleResults.testOpen') : '+' }}
         </span>
       </button>
 
@@ -26,14 +29,6 @@
             @click="toggleSection('matches')"
           >
             {{ t('scheduleResults.upcomingMatches') }}
-          </button>
-
-          <button
-            class="toggle-button"
-            :class="{ active: activeSection === 'registrations' }"
-            @click="toggleSection('registrations')"
-          >
-            {{ t('scheduleResults.registrations') }}
           </button>
 
           <button
@@ -57,14 +52,6 @@
 
     <UpcomingMatchesTable v-if="activeSection === 'matches'" />
 
-    <RegistrationsBoard
-      v-if="activeSection === 'registrations'"
-      :masculino="[]"
-      :feminino="[]"
-      :misto="[]"
-      :sub16="[]"
-    />
-
     <FinalResultsBoard
       v-if="activeSection === 'results'"
       :competitions="finalResults2025"
@@ -81,13 +68,14 @@ import Container from '../components/Container.vue'
 import SectionTitle from '../components/SectionTitle.vue'
 import SponsorsCarousel from '../components/SponsorsCarousel.vue'
 import UpcomingMatchesTable from '../components/UpcomingMatchesTable.vue'
-import RegistrationsBoard from '../components/RegistrationsBoard.vue'
 import FinalResultsBoard from '../components/FinalResultsBoard.vue'
 import FilteredScheduleBoard from '../components/FilteredScheduleBoard.vue'
+import RegistrationsFromSheet from '../components/RegistrationsFromSheet.vue'
 import { finalResults2025 } from '../data/finalResults2025'
 
 const { t } = useI18n()
 
+const registrationsOpen = true
 const isOpen = ref(false)
 const activeSection = ref(null)
 
