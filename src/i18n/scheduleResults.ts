@@ -14,6 +14,11 @@ export const scheduleResults = {
     en: "The tournament schedule and results will be available on the event day.",
     es: "El calendario y los resultados del torneo estarán disponibles el mismo día del evento.",
   },
+  registrationsInfo: {
+    pt: "Entretanto, acompanha abaixo as duplas que se estão a inscrever no torneio e as vagas disponíveis.",
+    en: "Meanwhile, follow below the teams registering for the tournament and the available spots.",
+    es: "Mientras tanto, consulta abajo las parejas que se están inscribiendo en el torneo y las plazas disponibles.",
+  },
   testClosed: {
     pt: "Ver dados de teste",
     en: "View test data",
