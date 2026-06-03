@@ -14,31 +14,65 @@
     </div>
 
     <template v-else>
-      <section class="category-card">
-        <h3>{{ t('common.male') }}</h3>
-        <TeamList :teams="masculino" :t="t" />
-      </section>
+      <section
+        v-for="category in categories"
+        :key="category.key"
+        class="category-card"
+      >
+        <h3>{{ category.title }}</h3>
 
-      <section class="category-card">
-        <h3>{{ t('common.female') }}</h3>
-        <TeamList :teams="feminino" :t="t" />
-      </section>
+        <div class="progress-wrapper">
+          <div class="progress-header">
+            <span class="progress-label">Inscrições</span>
+            <span class="progress-count">
+              {{ category.teams.length }} / {{ category.max }}
+            </span>
+          </div>
 
-      <section class="category-card">
-        <h3>{{ t('common.mixed') }}</h3>
-        <TeamList :teams="misto" :t="t" />
-      </section>
+          <div class="progress-track">
+            <div
+              class="progress-fill"
+              :style="{ width: `${getProgress(category.teams.length, category.max)}%` }"
+            ></div>
+          </div>
+        </div>
 
-      <section class="category-card">
-        <h3>{{ t('common.sub16') }}</h3>
-        <TeamList :teams="sub16" :t="t" />
+        <p v-if="!category.teams.length" class="empty-category">
+          {{ t('registrationsFromSheet.emptyCategory') }}
+        </p>
+
+        <div v-else class="teams-list">
+          <article
+            v-for="(team, index) in category.teams"
+            :key="`${team.athlete1}-${team.athlete2}-${index}`"
+            class="team-row"
+          >
+            <span class="team-number">
+              {{ String(index + 1).padStart(2, '0') }}
+            </span>
+
+            <span class="team-name">
+              {{ team.athlete1 }} / {{ team.athlete2 }}
+            </span>
+
+            <span
+              class="status"
+              :class="team.verified ? 'verified' : 'pending'"
+              :title="team.verified
+                ? t('registrationsFromSheet.verified')
+                : t('registrationsFromSheet.pending')"
+            >
+              {{ team.verified ? '✔️' : '⏳' }}
+            </span>
+          </article>
+        </div>
       </section>
     </template>
   </section>
 </template>
 
 <script setup>
-import { computed, defineComponent, h, onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from '../i18n'
 
 const { t } = useI18n()
@@ -50,56 +84,12 @@ const rows = ref([])
 const loading = ref(false)
 const error = ref(false)
 
-const TeamList = defineComponent({
-  props: {
-    teams: {
-      type: Array,
-      required: true,
-    },
-    t: {
-      type: Function,
-      required: true,
-    },
-  },
-  setup(props) {
-    return () => {
-      if (!props.teams.length) {
-        return h('p', { class: 'empty-category' }, props.t('registrationsFromSheet.emptyCategory'))
-      }
-
-      return h(
-        'div',
-        { class: 'teams-list' },
-        props.teams.map((team, index) =>
-          h(
-            'article',
-            {
-              class: 'team-row',
-              key: `${team.athlete1}-${team.athlete2}-${index}`,
-            },
-            [
-              h('span', { class: 'team-number' }, String(index + 1).padStart(2, '0')),
-              h('span', { class: 'team-name' }, `${team.athlete1} / ${team.athlete2}`),
-              h(
-                'span',
-                {
-                  class: team.verified ? 'status verified' : 'status pending',
-                  title: team.verified
-                    ? props.t('registrationsFromSheet.verified')
-                    : props.t('registrationsFromSheet.pending'),
-                },
-                team.verified ? '✔️' : '⏳'
-              ),
-            ]
-          )
-        )
-      )
-    }
-  },
-})
-
 function normalizeText(value) {
-  return String(value || '').trim().toLowerCase()
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
 }
 
 function buildFullName(firstName, lastName) {
@@ -137,16 +127,62 @@ async function loadRegistrations() {
   }
 }
 
-function filterByType(keyword) {
-  return rows.value.filter((row) => normalizeText(row.type).includes(keyword))
+function getProgress(current, max) {
+  if (!max) return 0
+  return Math.min((current / max) * 100, 100)
 }
 
-const masculino = computed(() => filterByType('masculina'))
-const feminino = computed(() => filterByType('feminina'))
-const misto = computed(() => filterByType('mista'))
+const masculino = computed(() =>
+  rows.value.filter((row) => {
+    const type = normalizeText(row.type)
+    return type.includes('masculino') || type.includes('masculina')
+  })
+)
+
+const feminino = computed(() =>
+  rows.value.filter((row) => {
+    const type = normalizeText(row.type)
+    return type.includes('feminino') || type.includes('feminina')
+  })
+)
+
+const misto = computed(() =>
+  rows.value.filter((row) => {
+    const type = normalizeText(row.type)
+    return type.includes('misto') || type.includes('mista')
+  })
+)
+
 const sub16 = computed(() =>
   rows.value.filter((row) => normalizeText(row.type).includes('sub'))
 )
+
+const categories = computed(() => [
+  {
+    key: 'masculino',
+    title: t('common.male'),
+    teams: masculino.value,
+    max: 64,
+  },
+  {
+    key: 'misto',
+    title: t('common.mixed'),
+    teams: misto.value,
+    max: 64,
+  },
+  {
+    key: 'feminino',
+    title: t('common.female'),
+    teams: feminino.value,
+    max: 32,
+  },
+  {
+    key: 'sub16',
+    title: t('common.sub16'),
+    teams: sub16.value,
+    max: 8,
+  },
+])
 
 onMounted(() => {
   loadRegistrations()
@@ -160,41 +196,80 @@ onMounted(() => {
   gap: 18px;
   margin: 32px 0;
 }
-  .registrations-header {
-    padding: 28px;
-    border-radius: var(--radius-lg);
-    background: var(--color-surface);
-    color: var(--color-text);
-    box-shadow: var(--shadow-sm);
-  }
 
-  .registrations-header h2 {
-    margin: 0 0 8px;
-    color: var(--color-text);
-    font-size: clamp(24px, 3vw, 32px);
-    font-weight: 800;
-  }
-
-  .registrations-header p {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-size: 15px;
-    font-weight: 500;
-  }
-
+.registrations-header,
 .category-card {
   padding: 28px;
-  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
+  color: var(--color-text);
   box-shadow: var(--shadow-sm);
 }
 
+.category-card {
+  border: 1px solid var(--color-border);
+}
+
+.registrations-header h2 {
+  margin: 0 0 8px;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 800;
+}
+
+.registrations-header p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  font-weight: 500;
+}
+
 .category-card h3 {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
   color: var(--color-primary-dark);
   font-size: 22px;
   font-weight: 800;
+}
+
+.progress-wrapper {
+  margin-bottom: 18px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.progress-label,
+.progress-count {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.progress-label {
+  color: var(--color-text-muted);
+}
+
+.progress-count {
+  color: var(--color-primary-dark);
+}
+
+.progress-track {
+  width: 100%;
+  height: 12px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(11, 79, 153, 0.15);
+}
+
+.progress-fill {
+  height: 100%;
+  min-width: 4px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0b4f99, #1d7ff2);
+  transition: width 0.3s ease;
 }
 
 .empty-category {
@@ -261,7 +336,12 @@ onMounted(() => {
   }
 
   .team-row {
-    grid-template-columns: 36px 1fr 30px;
+    grid-template-columns: 38px 1fr 30px;
+    gap: 10px;
+  }
+
+  .team-name {
+    font-size: 14px;
   }
 }
 </style>

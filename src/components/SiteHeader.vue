@@ -1,46 +1,38 @@
 <template>
   <header class="site-header">
     <nav class="nav">
-      <router-link to="/" class="brand">
+      <router-link to="/" class="brand" @click="closeMenu">
         <img :src="logo" alt="Torneio Maribar" class="logo-img" />
         <span class="brand-title">Torneio Maribar</span>
       </router-link>
 
-      <div class="nav-right">
+      <button
+        class="menu-toggle"
+        type="button"
+        :aria-expanded="isMenuOpen"
+        aria-label="Abrir menu"
+        @click="isMenuOpen = !isMenuOpen"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-right" :class="{ open: isMenuOpen }">
         <ul class="nav-links">
-          <li><router-link to="/">{{ t('nav.home') }}</router-link></li>
-          <li><router-link to="/sobre">{{ t('nav.about') }}</router-link></li>
-          <li><router-link to="/edicoes-passadas">{{ t('nav.pastEditions') }}</router-link></li>
-          <li><router-link to="/informacoes-inscricoes">{{ t('nav.registrationInfo') }}</router-link></li>
-          <li><router-link to="/calendarios-resultados">{{ t('nav.scheduleResults') }}</router-link></li>
-          <li><router-link to="/galeria">{{ t('nav.gallery') }}</router-link></li>
-          <li><router-link to="/regulamento">{{ t('nav.rules') }}</router-link></li>
+          <li><router-link to="/" @click="closeMenu">{{ t('nav.home') }}</router-link></li>
+          <li><router-link to="/sobre" @click="closeMenu">{{ t('nav.about') }}</router-link></li>
+          <li><router-link to="/edicoes-passadas" @click="closeMenu">{{ t('nav.pastEditions') }}</router-link></li>
+          <li><router-link to="/informacoes-inscricoes" @click="closeMenu">{{ t('nav.registrationInfo') }}</router-link></li>
+          <li><router-link to="/calendarios-resultados" @click="closeMenu">{{ t('nav.scheduleResults') }}</router-link></li>
+          <li><router-link to="/galeria" @click="closeMenu">{{ t('nav.gallery') }}</router-link></li>
+          <li><router-link to="/regulamento" @click="closeMenu">{{ t('nav.rules') }}</router-link></li>
         </ul>
 
         <div class="language-switcher" :aria-label="t('language.selectLanguage')">
-          <button
-            :class="{ active: language === 'pt' }"
-            type="button"
-            @click="setLanguage('pt')"
-          >
-            PT
-          </button>
-
-          <button
-            :class="{ active: language === 'en' }"
-            type="button"
-            @click="setLanguage('en')"
-          >
-            EN
-          </button>
-
-          <button
-            :class="{ active: language === 'es' }"
-            type="button"
-            @click="setLanguage('es')"
-          >
-            ES
-          </button>
+          <button :class="{ active: language === 'pt' }" type="button" @click="setLanguage('pt')">PT</button>
+          <button :class="{ active: language === 'en' }" type="button" @click="setLanguage('en')">EN</button>
+          <button :class="{ active: language === 'es' }" type="button" @click="setLanguage('es')">ES</button>
         </div>
       </div>
     </nav>
@@ -48,10 +40,17 @@
 </template>
 
 <script setup>
-  import { useI18n } from '../i18n'
+import { ref } from 'vue'
+import { useI18n } from '../i18n'
 import logo from '../assets/logo-tmaribar.png'
 
 const { t, setLanguage, language } = useI18n()
+
+const isMenuOpen = ref(false)
+
+const closeMenu = () => {
+  isMenuOpen.value = false
+}
 </script>
 
 <style scoped>
@@ -164,14 +163,78 @@ const { t, setLanguage, language } = useI18n()
   color: #0b4f99;
 }
 
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  padding: 8px;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 3px;
+  width: 100%;
+  margin: 4px 0;
+  border-radius: 999px;
+  background: white;
+}
+
 @media (max-width: 900px) {
   .nav {
-    flex-direction: column;
-    align-items: flex-start;
+    position: relative;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
   }
 
   .nav-right {
-    justify-content: flex-start;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px;
+    background-color: #0b4f99;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+  }
+
+  .nav-right.open {
+    display: flex;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .nav-links li {
+    width: 100%;
+  }
+
+  .nav-links a {
+    display: block;
+    width: 100%;
+    padding: 11px 12px;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  .language-switcher {
+    align-self: flex-start;
   }
 }
 </style>
