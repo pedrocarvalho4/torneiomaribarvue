@@ -1,53 +1,53 @@
 <template>
   <section class="schedule-board">
     <div class="schedule-header">
-      <h2>{{ t('schedule.searchByTeam') }}</h2>
-      <p>{{ t('schedule.subtitle') }}</p>
+      <h2>{{ t('scheduleSearch.title') }}</h2>
+      <p>{{ t('scheduleSearch.subtitle') }}</p>
     </div>
 
     <section class="filters-card">
-      <h3>{{ t('schedule.searchByTeam') }}</h3>
+      <h3>{{ t('scheduleSearch.filtersTitle') }}</h3>
 
       <div class="filters-grid">
         <label>
-          {{ t('common.type') }}
+          {{ t('scheduleSearch.type') }}
           <select v-model="typeFilter">
-            <option value="">{{ t('common.all') }}</option>
-            <option value="MAS">{{ t('common.male') }}</option>
-            <option value="FEM">{{ t('common.female') }}</option>
-            <option value="MIX">{{ t('common.mixed') }}</option>
-            <option value="JSub16">{{ t('common.sub16') }}</option>
+            <option value="">{{ t('scheduleSearch.all') }}</option>
+            <option value="MAS">{{ t('scheduleSearch.male') }}</option>
+            <option value="FEM">{{ t('scheduleSearch.female') }}</option>
+            <option value="MIX">{{ t('scheduleSearch.mixed') }}</option>
+            <option value="JSub16">{{ t('scheduleSearch.sub16') }}</option>
           </select>
         </label>
 
         <label>
-          {{ t('schedule.teamContains') }}
+          {{ t('scheduleSearch.teamContains') }}
           <input
             v-model="teamFilter"
             type="text"
-            :placeholder="t('schedule.teamPlaceholder')"
+            :placeholder="t('scheduleSearch.teamPlaceholder')"
           />
         </label>
 
         <label class="checkbox-label">
           <input v-model="onlyPending" type="checkbox" />
-          {{ t('schedule.onlyPending') }}
+          {{ t('scheduleSearch.onlyPending') }}
         </label>
       </div>
     </section>
 
     <div v-if="loading" class="state-card">
-      {{ t('schedule.loading') }}
+      {{ t('scheduleSearch.loading') }}
     </div>
 
     <div v-else-if="error" class="state-card error">
-      {{ t('schedule.loadError') }}
+      {{ t('scheduleSearch.loadError') }}
     </div>
 
     <template v-else>
       <p v-if="filteredMatches.length > resultLimit" class="warning">
         {{
-          t('schedule.resultLimitWarning', {
+          t('scheduleSearch.resultLimitWarning', {
             count: filteredMatches.length,
             limit: resultLimit,
           })
@@ -58,15 +58,15 @@
         <table>
           <thead>
             <tr>
-              <th>{{ t('schedule.table.matchNumber') }}</th>
-              <th>{{ t('schedule.table.day') }}</th>
-              <th>{{ t('schedule.table.time') }}</th>
-              <th>{{ t('schedule.table.field') }}</th>
-              <th>{{ t('schedule.table.teamA') }}</th>
+              <th>{{ t('scheduleSearch.table.matchNumber') }}</th>
+              <th>{{ t('scheduleSearch.table.day') }}</th>
+              <th>{{ t('scheduleSearch.table.time') }}</th>
+              <th>{{ t('scheduleSearch.table.field') }}</th>
+              <th>{{ t('scheduleSearch.table.teamA') }}</th>
               <th></th>
               <th>X</th>
               <th></th>
-              <th>{{ t('schedule.table.teamB') }}</th>
+              <th>{{ t('scheduleSearch.table.teamB') }}</th>
             </tr>
           </thead>
 
@@ -87,7 +87,7 @@
       </div>
 
       <div v-else class="state-card">
-        {{ t('schedule.empty') }}
+        {{ t('scheduleSearch.empty') }}
       </div>
     </template>
   </section>

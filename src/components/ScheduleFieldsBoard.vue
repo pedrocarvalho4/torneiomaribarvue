@@ -1,77 +1,55 @@
 <template>
   <section class="schedule-board">
     <div class="schedule-header">
-      <h2>{{ t('schedule.searchByTeam') }}</h2>
-      <p>{{ t('schedule.subtitle') }}</p>
+      <h2>{{ t('scheduleFields.title') }}</h2>
+      <p>{{ t('scheduleFields.subtitle') }}</p>
     </div>
 
     <section class="filters-card">
-      <h3>{{ t('schedule.searchByTeam') }}</h3>
+      <h3>{{ t('scheduleFields.filtersTitle') }}</h3>
 
-      <div class="filters-grid">
-        <label>
-          {{ t('common.type') }}
-          <select v-model="typeFilter">
-            <option value="">{{ t('common.all') }}</option>
-            <option value="MAS">{{ t('common.male') }}</option>
-            <option value="FEM">{{ t('common.female') }}</option>
-            <option value="MIX">{{ t('common.mixed') }}</option>
-            <option value="JSub16">{{ t('common.sub16') }}</option>
-          </select>
-        </label>
-
-        <label>
-          {{ t('schedule.teamContains') }}
-          <input
-            v-model="teamFilter"
-            type="text"
-            :placeholder="t('schedule.teamPlaceholder')"
-          />
-        </label>
-
-        <label class="checkbox-label">
-          <input v-model="onlyPending" type="checkbox" />
-          {{ t('schedule.onlyPending') }}
-        </label>
-      </div>
+      <label>
+        {{ t('scheduleFields.selectField') }}
+        <select v-model="fieldFilter">
+          <option value="">{{ t('scheduleFields.allFields') }}</option>
+          <option v-for="field in fields" :key="field.name" :value="field.name">
+            {{ field.name }}
+          </option>
+        </select>
+      </label>
     </section>
 
     <div v-if="loading" class="state-card">
-      {{ t('schedule.loading') }}
+      {{ t('scheduleFields.loading') }}
     </div>
 
     <div v-else-if="error" class="state-card error">
-      {{ t('schedule.loadError') }}
+      {{ t('scheduleFields.loadError') }}
     </div>
 
     <template v-else>
-      <p v-if="filteredMatches.length > resultLimit" class="warning">
-        {{
-          t('schedule.resultLimitWarning', {
-            count: filteredMatches.length,
-            limit: resultLimit,
-          })
-        }}
-      </p>
-
-      <div v-if="limitedFilteredMatches.length" class="table-wrapper">
+      <div v-if="matchesByField.length" class="table-wrapper">
         <table>
           <thead>
             <tr>
-              <th>{{ t('schedule.table.matchNumber') }}</th>
-              <th>{{ t('schedule.table.day') }}</th>
-              <th>{{ t('schedule.table.time') }}</th>
-              <th>{{ t('schedule.table.field') }}</th>
-              <th>{{ t('schedule.table.teamA') }}</th>
+              <th>{{ t('scheduleFields.table.matchNumber') }}</th>
+              <th>{{ t('scheduleFields.table.day') }}</th>
+              <th>{{ t('scheduleFields.table.time') }}</th>
+              <th>{{ t('scheduleFields.table.field') }}</th>
+              <th>{{ t('scheduleFields.table.teamA') }}</th>
               <th></th>
               <th>X</th>
               <th></th>
-              <th>{{ t('schedule.table.teamB') }}</th>
+              <th>{{ t('scheduleFields.table.teamB') }}</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr v-for="match in limitedFilteredMatches" :key="match.key">
+            <tr
+              v-for="match in matchesByField"
+              :key="`field-${match.key}`"
+              :class="{ 'first-pending': match.isFirstPending }"
+            >
               <td>{{ match.number }}</td>
               <td>{{ match.day }}</td>
               <td>{{ match.time }}</td>
@@ -87,7 +65,7 @@
       </div>
 
       <div v-else class="state-card">
-        {{ t('schedule.empty') }}
+        {{ t('scheduleFields.empty') }}
       </div>
     </template>
   </section>
@@ -127,12 +105,7 @@ const fields = [
 const rows = ref([])
 const loading = ref(false)
 const error = ref(false)
-
-const typeFilter = ref('')
-const teamFilter = ref('')
-const onlyPending = ref(true)
-
-const resultLimit = 20
+const fieldFilter = ref('')
 
 function formatTime(cell) {
   if (!cell?.v) return ''
@@ -203,29 +176,25 @@ function sortMatches(a, b) {
 
 const allMatches = computed(() => rows.value.slice().sort(sortMatches))
 
-const filteredMatches = computed(() => {
-  const selectedType = typeFilter.value.trim().toUpperCase()
-  const selectedTeam = teamFilter.value.trim().toLowerCase()
+const matchesByField = computed(() => {
+  let firstPendingMarked = false
 
-  return allMatches.value.filter((match) => {
-    const matchesType =
-      !selectedType || match.number.toUpperCase().includes(selectedType)
+  return allMatches.value
+    .filter((match) => !fieldFilter.value || match.field === fieldFilter.value)
+    .map((match) => {
+      const isPending = !match.resultA && !match.resultB
+      const isFirstPending = isPending && !firstPendingMarked
 
-    const matchesTeam =
-      !selectedTeam ||
-      match.teamA.toLowerCase().includes(selectedTeam) ||
-      match.teamB.toLowerCase().includes(selectedTeam)
+      if (isFirstPending) {
+        firstPendingMarked = true
+      }
 
-    const matchesPending =
-      !onlyPending.value || (!match.resultA && !match.resultB)
-
-    return matchesType && matchesTeam && matchesPending
-  })
+      return {
+        ...match,
+        isFirstPending,
+      }
+    })
 })
-
-const limitedFilteredMatches = computed(() =>
-  filteredMatches.value.slice(0, resultLimit)
-)
 
 onMounted(() => {
   loadSchedule()
@@ -285,12 +254,6 @@ onMounted(() => {
   letter-spacing: -0.02em;
 }
 
-.filters-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 16px;
-}
-
 label {
   display: flex;
   flex-direction: column;
@@ -301,15 +264,9 @@ label {
   line-height: 1.2;
 }
 
-.checkbox-label {
-  flex-direction: row;
-  align-items: center;
-  color: var(--color-text);
-}
-
-select,
-input {
+select {
   width: 100%;
+  max-width: 360px;
   padding: 10px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -323,21 +280,9 @@ input {
     box-shadow 0.2s ease;
 }
 
-select:focus,
-input:focus {
+select:focus {
   border-color: var(--color-primary);
   box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
-}
-
-.warning {
-  margin: 0;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  background: #fff8e1;
-  color: #6b4e00;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.5;
 }
 
 .table-wrapper {
@@ -383,6 +328,11 @@ tbody tr:hover {
   background: #f8fbff;
 }
 
+.first-pending {
+  background: #eaf4ff;
+  font-weight: 800;
+}
+
 .state-card {
   padding: 24px;
   border: 1px solid var(--color-border);
@@ -396,12 +346,5 @@ tbody tr:hover {
   border-color: #f2b8b5;
   background: #fff5f5;
   color: #8a1c16;
-}
-
-@media (min-width: 800px) {
-  .filters-grid {
-    grid-template-columns: 180px 1fr auto;
-    align-items: end;
-  }
 }
 </style>
