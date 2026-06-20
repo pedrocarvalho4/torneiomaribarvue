@@ -17,6 +17,10 @@ import { rules } from './rules'
 import { scheduleResults } from './scheduleResults'
 import { sponsors } from './sponsors'
 import { registrationsFromSheet } from './registrationsFromSheet'
+import { testSchedule } from './testSchedule'
+import { scheduleFullCalendar } from './scheduleFullCalendar'
+import { scheduleSearch } from './scheduleSearch'
+import { scheduleFields } from './scheduleFields'
 
 export type Language = 'pt' | 'en' | 'es'
 
@@ -39,6 +43,10 @@ export const translations = {
   scheduleResults,
   sponsors,
   registrationsFromSheet,
+  testSchedule,
+  scheduleFullCalendar,
+  scheduleSearch,
+  scheduleFields,
 }
 
 const currentLanguage = ref<Language>('pt')
