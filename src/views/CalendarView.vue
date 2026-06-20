@@ -14,6 +14,12 @@
 
     <SponsorsCarousel />
 
+    <div class="test-page-link">
+      <RouterLink class="test-page-button" to="/calendario-testes">
+        +
+      </RouterLink>
+    </div>
+    <!--
     <div class="accordion">
       <button class="accordion-header" type="button" @click="isOpen = !isOpen">
         <span>
@@ -58,6 +64,7 @@
     />
 
     <FilteredScheduleBoard v-if="activeSection === 'fullSchedule'" />
+    -->
   </Container>
 </template>
 
