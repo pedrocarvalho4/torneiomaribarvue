@@ -6,6 +6,7 @@ import InfoView from '../views/InfoView.vue'
 import CalendarView from '../views/CalendarView.vue'
 import GalleryView from '../views/GalleryView.vue'
 import RulesView from '../views/RulesView.vue'
+import TestScheduleView from '../views/TestScheduleView.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,6 +18,11 @@ const router = createRouter({
     { path: '/calendarios-resultados', name: 'calendar', component: CalendarView },
     { path: '/galeria', name: 'gallery', component: GalleryView },
     { path: '/regulamento', name: 'rules', component: RulesView },
+    {
+      path: '/calendario-testes',
+      name: 'test-schedule',
+      component: TestScheduleView,
+    },
   ],
 })
 
