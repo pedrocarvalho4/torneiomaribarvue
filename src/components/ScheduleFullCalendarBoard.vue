@@ -162,13 +162,14 @@ const selectedCategory = computed(() =>
     box-shadow 0.2s ease;
 }
 
-.calendar-category-button:hover,
-.calendar-category-button.active {
-  background: var(--color-primary-dark);
-  color: white;
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(13, 79, 153, 0.18);
-}
+  .calendar-category-button:hover,
+  .calendar-category-button.active {
+    background: #0b4f99;
+    color: #ffffff;
+    border-color: #0b4f99;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 18px rgba(13, 79, 153, 0.18);
+  }
 
 .calendar-frame-wrapper {
   overflow: hidden;
