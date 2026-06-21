@@ -21,6 +21,7 @@ import { testSchedule } from './testSchedule'
 import { scheduleFullCalendar } from './scheduleFullCalendar'
 import { scheduleSearch } from './scheduleSearch'
 import { scheduleFields } from './scheduleFields'
+import { scheduleNextPendingMatches } from './scheduleNextPendingMatches'
 
 export type Language = 'pt' | 'en' | 'es'
 
@@ -47,6 +48,7 @@ export const translations = {
   scheduleFullCalendar,
   scheduleSearch,
   scheduleFields,
+  scheduleNextPendingMatches,
 }
 
 const currentLanguage = ref<Language>('pt')

@@ -29,4 +29,9 @@ export const testSchedule = {
     en: 'Schedules',
     es: 'Calendarios',
   },
+  nextPendingMatches: {
+    pt: 'Próximos 40 Jogos',
+    en: 'Next 40 Matches',
+    es: 'Próximos 40 Partidos',
+  },
 }
