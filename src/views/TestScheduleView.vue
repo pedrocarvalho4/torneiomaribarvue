@@ -40,6 +40,15 @@
       >
         {{ t('testSchedule.calendars') }}
       </button>
+
+      <button
+        class="toggle-button"
+        :class="{ active: activeSection === 'nextPending' }"
+        type="button"
+        @click="activeSection = 'nextPending'"
+      >
+        {{ t('testSchedule.nextPendingMatches') }}
+      </button>
     </div>
 
     <ScheduleSearchBoard v-if="activeSection === 'search'" />
@@ -47,6 +56,8 @@
     <ScheduleFieldsBoard v-if="activeSection === 'fields'" />
 
     <ScheduleFullCalendarBoard v-if="activeSection === 'calendar'" />
+
+    <ScheduleNextPendingMatchesBoard v-if="activeSection === 'nextPending'" />
   </Container>
 </template>
 
@@ -58,6 +69,7 @@ import SectionTitle from '../components/SectionTitle.vue'
 import ScheduleSearchBoard from '../components/ScheduleSearchBoard.vue'
 import ScheduleFieldsBoard from '../components/ScheduleFieldsBoard.vue'
 import ScheduleFullCalendarBoard from '../components/ScheduleFullCalendarBoard.vue'
+import ScheduleNextPendingMatchesBoard from '../components/ScheduleNextPendingMatchesBoard.vue'
 
 const { t } = useI18n()
 
@@ -140,8 +152,9 @@ const activeSection = ref(null)
 
 .toggle-button:hover,
 .toggle-button.active {
-  background: var(--color-primary-dark);
-  color: white;
+  background: #0b4f99;
+  color: #ffffff;
+  border-color: #0b4f99;
   transform: translateY(-1px);
   box-shadow: 0 8px 18px rgba(13, 79, 153, 0.18);
 }
