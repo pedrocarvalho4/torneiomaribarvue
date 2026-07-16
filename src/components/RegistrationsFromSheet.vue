@@ -157,6 +157,17 @@ const sub16 = computed(() =>
   rows.value.filter((row) => normalizeText(row.type).includes('sub'))
 )
 
+  const paiFilhoMini = computed(() =>
+    rows.value.filter((row) => {
+      const type = normalizeText(row.type)
+
+      return (
+        type.includes('pai-filho') ||
+        type.includes('pai filho')
+      )
+    })
+  )
+
 const categories = computed(() => [
   {
     key: 'masculino',
@@ -180,7 +191,13 @@ const categories = computed(() => [
     key: 'sub16',
     title: t('common.sub16'),
     teams: sub16.value,
-    max: 8,
+    max: 6,
+  },
+  {
+    key: 'pai-filho-mini',
+    title: 'Pai-Filho (Mini)',
+    teams: paiFilhoMini.value,
+    max: 6,
   },
 ])
 
