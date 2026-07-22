@@ -100,6 +100,7 @@ const fields = [
   { name: 'Campo 18', gid: '1359512400' },
   { name: 'Campo 19', gid: '1668490881' },
   { name: 'Campo 20', gid: '757667119' },
+  { name: 'Campo 21', gid: '747385380' },
 ]
 
 const rows = ref([])

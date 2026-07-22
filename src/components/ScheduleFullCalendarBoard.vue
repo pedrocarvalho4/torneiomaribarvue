@@ -50,6 +50,11 @@ const calendarCategories = computed(() => [
     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlt60NOmuEHBMR0dMMSe6N7U7bmFkvBPJ_UX1k7rAVTPqUoWnB7-wEKPtHl74Owm-zexTk5KepTTs0/pubhtml?gid=1946814567&single=true',
   },
   {
+    id: 'parentChildMini',
+    label: t('scheduleFullCalendar.categories.parentChildMini'),
+    url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlt60NOmuEHBMR0dMMSe6N7U7bmFkvBPJ_UX1k7rAVTPqUoWnB7-wEKPtHl74Owm-zexTk5KepTTs0/pubhtml?gid=609455942&single=true',
+  },
+  {
     id: 'first-phase-mixed',
     label: t('scheduleFullCalendar.categories.firstPhaseMixed'),
     url: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRlt60NOmuEHBMR0dMMSe6N7U7bmFkvBPJ_UX1k7rAVTPqUoWnB7-wEKPtHl74Owm-zexTk5KepTTs0/pubhtml?gid=1057529267&single=true',

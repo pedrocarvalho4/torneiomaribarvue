@@ -17,6 +17,7 @@
             <option value="FEM">{{ t('scheduleSearch.female') }}</option>
             <option value="MIX">{{ t('scheduleSearch.mixed') }}</option>
             <option value="JSub16">{{ t('scheduleSearch.sub16') }}</option>
+            <option value="JPF">{{ t('scheduleSearch.parentChildMini') }}</option>
           </select>
         </label>
 
