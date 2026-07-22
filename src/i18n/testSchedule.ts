@@ -1,8 +1,8 @@
 export const testSchedule = {
   title: {
-    pt: 'Calendário de Testes',
-    en: 'Test Schedule',
-    es: 'Calendario de Pruebas',
+    pt: 'Calendário',
+    en: 'Schedule',
+    es: 'Calendario',
   },
   back: {
     pt: 'Voltar',
@@ -10,9 +10,9 @@ export const testSchedule = {
     es: 'Volver',
   },
   description: {
-    pt: 'Esta página serve para testar a pesquisa de jogos, os jogos por campo e os calendários antes da publicação final.',
-    en: 'This page is used to test match search, matches by field and schedules before the final publication.',
-    es: 'Esta página sirve para probar la búsqueda de partidos, los partidos por campo y los calendarios antes de la publicación final.',
+    pt: 'Consulte aqui os calendários. Os horários dos jogos serão disponibilizados no dia do torneio, a partir das 9h.',
+    en: 'View the schedules here. Match times will be available on the day of the tournament from 9:00 AM.',
+    es: 'Consulta aquí los calendarios. Los horarios de los partidos estarán disponibles el día del torneo a partir de las 9:00.',
   },
   search: {
     pt: 'Pesquisar',
