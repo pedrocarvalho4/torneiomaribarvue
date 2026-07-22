@@ -25,6 +25,11 @@ export const scheduleFullCalendar = {
       en: 'Under-16',
       es: 'Sub-16',
     },
+    parentChildMini: {
+      pt: 'Pai-Filho (Mini)',
+      en: 'Parent-Child (Mini)',
+      es: 'Padre/Madre-Hijo/a (Mini)',
+    },
     firstPhaseMixed: {
       pt: '1.ª Fase Misto',
       en: '1st Phase Mixed',
