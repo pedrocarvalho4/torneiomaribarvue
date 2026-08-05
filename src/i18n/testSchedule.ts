@@ -34,4 +34,9 @@ export const testSchedule = {
     en: 'Next 40 Matches',
     es: 'Próximos 40 Partidos',
   },
+  rankings: {
+    pt: 'Classificações',
+    en: 'Rankings',
+    es: 'Clasificaciones',
+  },
 }
