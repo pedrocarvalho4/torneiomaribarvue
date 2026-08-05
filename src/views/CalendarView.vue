@@ -43,6 +43,14 @@
       >
         {{ t('testSchedule.nextPendingMatches') }}
       </button>
+      <button
+        class="toggle-button"
+        :class="{ active: activeSection === 'rankings' }"
+        type="button"
+        @click="activeSection = 'rankings'"
+      >
+        {{ t('testSchedule.rankings') }}
+      </button>
     </div>
 
     <section class="schedule-content">
@@ -60,6 +68,9 @@
 
       <ScheduleNextPendingMatchesBoard
         v-else-if="activeSection === 'nextPending'"
+      />
+      <ScheduleRankingsBoard
+        v-else-if="activeSection === 'rankings'"
       />
     </section>
 
@@ -79,6 +90,7 @@ import ScheduleFullCalendarBoard from '../components/ScheduleFullCalendarBoard.v
 import ScheduleSearchBoard from '../components/ScheduleSearchBoard.vue'
 import ScheduleFieldsBoard from '../components/ScheduleFieldsBoard.vue'
 import ScheduleNextPendingMatchesBoard from '../components/ScheduleNextPendingMatchesBoard.vue'
+import ScheduleRankingsBoard from '../components/ScheduleRankingsBoard.vue'
 
 const { t } = useI18n()
 

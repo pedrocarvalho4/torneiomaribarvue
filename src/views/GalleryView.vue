@@ -7,6 +7,19 @@
     </p>
 
     <section class="gallery-grid">
+    <figure class="gallery-item">
+      <a href="https://photos.app.goo.gl/TC4kKbzV2p2o4zkL6" target="_blank">
+        <img src="/images/fotos2026s.jpg" :alt="t('gallery.albums.photos2026Saturday')" />
+      </a>
+      <figcaption>{{ t('gallery.albums.label2026Saturday') }}</figcaption>
+    </figure>
+
+    <figure class="gallery-item">
+      <a href="https://photos.app.goo.gl/gKNt1y7ZtdzwKYxf8" target="_blank">
+        <img src="/images/fotos2026d.jpg" :alt="t('gallery.albums.photos2026Sunday')" />
+      </a>
+      <figcaption>{{ t('gallery.albums.label2026Sunday') }}</figcaption>
+    </figure>
       <figure class="gallery-item">
         <a href="https://photos.app.goo.gl/qyertcwkpV1SNkMs8" target="_blank">
           <img src="/images/fotos2025s.jpg" :alt="t('gallery.albums.photos2025Saturday')" />

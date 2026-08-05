@@ -34,6 +34,7 @@ import SponsorsCarousel from '../components/SponsorsCarousel.vue'
 const { t } = useI18n()
 
 const editions = [
+  { year: '2026', icon: '🏆', videoUrl: 'https://www.youtube.com/embed/klHdUlR3SQs' },
   { year: '2025', icon: '🏆', videoUrl: 'https://www.youtube.com/embed/7s0wM0hdBe0' },
   { year: '2024', icon: '🏆', videoUrl: 'https://www.youtube.com/embed/pi7Qe3jYM8E' },
   { year: '2023', icon: '🏐', videoUrl: 'https://www.youtube.com/embed/IfaDOmJXqdY' },

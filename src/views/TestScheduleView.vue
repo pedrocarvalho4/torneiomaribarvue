@@ -51,11 +51,13 @@
       </button>
     </div>
 
+    <ScheduleFullCalendarBoard v-if="activeSection === 'calendar'" />
+
     <ScheduleSearchBoard v-if="activeSection === 'search'" />
 
     <ScheduleFieldsBoard v-if="activeSection === 'fields'" />
 
-    <ScheduleFullCalendarBoard v-if="activeSection === 'calendar'" />
+    
 
     <ScheduleNextPendingMatchesBoard v-if="activeSection === 'nextPending'" />
   </Container>
@@ -73,7 +75,7 @@ import ScheduleNextPendingMatchesBoard from '../components/ScheduleNextPendingMa
 
 const { t } = useI18n()
 
-const activeSection = ref(null)
+const activeSection = ref('calendar')
 </script>
 
 <style scoped>
